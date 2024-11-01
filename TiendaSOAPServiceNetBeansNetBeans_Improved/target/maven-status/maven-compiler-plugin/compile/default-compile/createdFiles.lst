@@ -1,0 +1,12 @@
+com\tienda\model\DetalleVenta.class
+com\tienda\model\Empleado.class
+com\tienda\config\DBConnection.class
+com\tienda\dao\ClienteDAO.class
+com\tienda\dao\ProductoDAO.class
+com\tienda\dao\EmpleadoDAO.class
+com\tienda\service\TiendaWebService.class
+com\tienda\model\Cliente.class
+com\tienda\dao\DetalleVentaDAO.class
+com\tienda\dao\VentasDAO.class
+com\tienda\model\Producto.class
+com\tienda\model\Ventas.class
