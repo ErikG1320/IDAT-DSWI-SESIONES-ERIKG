@@ -5,13 +5,13 @@
          version="3.1">
 
     <servlet>
-        <servlet-name>TiendaSOAPService</servlet-name>
-        <servlet-class>com.tienda.soap.Main</servlet-class>
+        <servlet-name>TiendaWebService</servlet-name>
+        <servlet-class>com.tienda.service.TiendaWebService</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>TiendaSOAPService</servlet-name>
-        <url-pattern>/TiendaSOAPService</url-pattern>
+        <servlet-name>TiendaWebService</servlet-name>
+        <url-pattern>/TiendaWebService</url-pattern>
     </servlet-mapping>
 
 </web-app>
