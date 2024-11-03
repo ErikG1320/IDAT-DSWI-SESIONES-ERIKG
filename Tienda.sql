@@ -1,6 +1,7 @@
 -- Creación de la base de datos
 CREATE DATABASE IF NOT EXISTS Tienda_Micas;
 USE Tienda_Micas;
+
 -- Creación de la tabla Clientes
 CREATE TABLE IF NOT EXISTS Clientes (
     id_cliente INT PRIMARY KEY AUTO_INCREMENT,
@@ -138,5 +139,71 @@ BEGIN
         telefono_cliente = telefono,
         direccion_cliente = direccion
     WHERE id_cliente = id_cliente;
+END //
+DELIMITER ;
+
+-- Procedimiento para actualizar un producto
+DELIMITER //
+CREATE PROCEDURE actualizar_producto (
+    IN id_producto INT,
+    IN nombre VARCHAR(100),
+    IN descripcion TEXT,
+    IN precio DECIMAL(10, 2),
+    IN stock INT
+)
+BEGIN
+    UPDATE Productos
+    SET nombre_producto = nombre,
+        descripcion_producto = descripcion,
+        precio = precio,
+        stock = stock
+    WHERE id_producto = id_producto;
+END //
+DELIMITER ;
+
+-- Procedimiento para actualizar una venta
+DELIMITER //
+CREATE PROCEDURE actualizar_venta (
+    IN id_venta INT,
+    IN cliente_id INT,
+    IN empleado_id INT,
+    IN fecha DATE,
+    IN total DECIMAL(10, 2)
+)
+BEGIN
+    UPDATE Ventas
+    SET id_cliente = cliente_id,
+        id_empleado = empleado_id,
+        fecha_venta = fecha,
+        total = total
+    WHERE id_venta = id_venta;
+END //
+DELIMITER ;
+
+-- Procedimiento para obtener el total de ventas por cliente
+DELIMITER //
+CREATE PROCEDURE total_ventas_por_cliente (
+    IN cliente_id INT,
+    OUT total DECIMAL(10, 2)
+)
+BEGIN
+    SELECT SUM(total)
+    INTO total
+    FROM Ventas
+    WHERE id_cliente = cliente_id;
+END //
+DELIMITER ;
+
+-- Procedimiento para obtener detalles de una venta específica
+DELIMITER //
+CREATE PROCEDURE obtener_detalle_venta (
+    IN venta_id INT
+)
+BEGIN
+    SELECT dv.id_detalle, p.nombre_producto, dv.cantidad, dv.precio_unitario,
+           (dv.cantidad * dv.precio_unitario) AS total
+    FROM Detalle_Venta dv
+    JOIN Productos p ON dv.id_producto = p.id_producto
+    WHERE dv.id_venta = venta_id;
 END //
 DELIMITER ;
