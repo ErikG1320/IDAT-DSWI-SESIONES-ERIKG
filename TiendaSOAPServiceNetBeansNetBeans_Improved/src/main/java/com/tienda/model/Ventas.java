@@ -1,32 +1,32 @@
 package com.tienda.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Ventas {
-    private int id_venta;
-    private int id_cliente;
-    private int id_empleado;
-    private Date fecha_venta;
-    private double total;
+    private int id_venta;        // ID de la venta
+    private int id_cliente;      // ID del cliente asociado a la venta
+    private int id_empleado;     // ID del empleado que realizó la venta
+    private LocalDate fecha_venta; // Fecha en que se realizó la venta
+    private double total;        // Total de la venta
 
-    // Constructor
-
-    public Ventas(int id_venta, int id_cliente, int id_empleado, Date fecha_venta, double total) {
+    // Constructor con ID (para casos de actualización)
+    public Ventas(int id_venta, int id_cliente, int id_empleado, LocalDate fecha_venta, double total) {
         this.id_venta = id_venta;
         this.id_cliente = id_cliente;
         this.id_empleado = id_empleado;
         this.fecha_venta = fecha_venta;
         this.total = total;
     }
-    // Constructor sin id
 
-    public Ventas(int id_cliente, int id_empleado, Date fecha_venta, double total) {
+    // Constructor sin ID (para agregar nuevas ventas)
+    public Ventas(int id_cliente, int id_empleado, LocalDate fecha_venta, double total) {
         this.id_cliente = id_cliente;
         this.id_empleado = id_empleado;
         this.fecha_venta = fecha_venta;
         this.total = total;
     }
 
+    // Getters y Setters
     public int getId_venta() {
         return id_venta;
     }
@@ -51,11 +51,11 @@ public class Ventas {
         this.id_empleado = id_empleado;
     }
 
-    public Date getFecha_venta() {
+    public LocalDate getFecha_venta() {
         return fecha_venta;
     }
 
-    public void setFecha_venta(Date fecha_venta) {
+    public void setFecha_venta(LocalDate fecha_venta) {
         this.fecha_venta = fecha_venta;
     }
 
@@ -66,5 +66,4 @@ public class Ventas {
     public void setTotal(double total) {
         this.total = total;
     }
-    
 }

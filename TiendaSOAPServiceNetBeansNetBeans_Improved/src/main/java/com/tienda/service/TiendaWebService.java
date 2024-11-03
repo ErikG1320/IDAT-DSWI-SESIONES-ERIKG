@@ -11,7 +11,9 @@ import com.tienda.model.DetalleVenta;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
-import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @WebService
@@ -25,7 +27,9 @@ public class TiendaWebService {
     @WebMethod
     public String agregarCliente(String nombre, String email, String telefono, String direccion, String fechaRegistro) {
         try {
-            Cliente cliente = new Cliente(nombre, email, telefono, direccion, Date.valueOf(fechaRegistro));
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+            Date fecha = formatoFecha.parse(fechaRegistro);
+            Cliente cliente = new Cliente(nombre, email, telefono, direccion, fecha);
             clienteDAO.agregarCliente(cliente);
             return "Cliente agregado exitosamente";
         } catch (Exception e) {
@@ -33,68 +37,16 @@ public class TiendaWebService {
         }
     }
 
-    // Métodos para Empleados
-    @WebMethod
-    public String agregarEmpleado(String nombre, String email, String telefono, String puesto, String fechaContratacion) {
-        try {
-            Empleado empleado = new Empleado(nombre, email, telefono, puesto, fechaContratacion);
-            empleadoDAO.agregarEmpleado(empleado);
-            return "Empleado agregado exitosamente";
-        } catch (Exception e) {
-            return "Error al agregar empleado: " + e.getMessage();
-        }
-    }
-
-    // Métodos para Ventas
-    @WebMethod
-    public String realizarVenta(int idCliente, int idEmpleado, String fechaVenta, double total) {
-        try {
-            Ventas venta = new Ventas(idCliente, idEmpleado, Date.valueOf(fechaVenta), total);
-            ventasDAO.agregarVenta(venta);
-            return "Venta realizada exitosamente";
-        } catch (Exception e) {
-            return "Error al realizar venta: " + e.getMessage();
-        }
-    }
-
-    @WebMethod
-    public List<Ventas> obtenerTodasLasVentas() {
-        try {
-            return ventasDAO.obtenerVentas();
-        } catch (Exception e) {
-            return null; // Considera registrar el error aquí
-        }
-    }
-
-    @WebMethod
-    public List<DetalleVenta> obtenerDetallesVenta(int idVenta) {
-        try {
-            return detalleVentaDAO.obtenerDetallesPorVenta(idVenta); // Método actualizado
-        } catch (Exception e) {
-            return null; // Considera registrar el error aquí
-        }
-    }
-
-    // Métodos para actualizar y eliminar clientes y empleados
     @WebMethod
     public String actualizarCliente(int idCliente, String nombre, String email, String telefono, String direccion, String fechaRegistro) {
         try {
-            Cliente cliente = new Cliente(idCliente, nombre, email, telefono, direccion, Date.valueOf(fechaRegistro));
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+            Date fecha = formatoFecha.parse(fechaRegistro);
+            Cliente cliente = new Cliente(idCliente, nombre, email, telefono, direccion, fecha);
             clienteDAO.actualizarCliente(cliente);
             return "Cliente actualizado exitosamente";
         } catch (Exception e) {
             return "Error al actualizar cliente: " + e.getMessage();
-        }
-    }
-
-    @WebMethod
-    public String actualizarEmpleado(int idEmpleado, String nombre, String email, String telefono, String puesto, String fechaContratacion) {
-        try {
-            Empleado empleado = new Empleado(idEmpleado, nombre, email, telefono, puesto, fechaContratacion);
-            empleadoDAO.actualizarEmpleado(empleado);
-            return "Empleado actualizado exitosamente";
-        } catch (Exception e) {
-            return "Error al actualizar empleado: " + e.getMessage();
         }
     }
 
@@ -109,6 +61,40 @@ public class TiendaWebService {
     }
 
     @WebMethod
+    public List<Cliente> obtenerClientes() {
+        try {
+            return clienteDAO.listarClientes();
+        } catch (Exception e) {
+            return null; // Considera registrar el error aquí
+        }
+    }
+
+    // Métodos para Empleados
+    @WebMethod
+    public String agregarEmpleado(String nombre, String email, String telefono, String puesto, String fechaContratacion) {
+        try {
+            LocalDate fecha = LocalDate.parse(fechaContratacion);
+            Empleado empleado = new Empleado(nombre, email, telefono, puesto, fecha);
+            empleadoDAO.agregarEmpleado(empleado);
+            return "Empleado agregado exitosamente";
+        } catch (Exception e) {
+            return "Error al agregar empleado: " + e.getMessage();
+        }
+    }
+
+    @WebMethod
+    public String actualizarEmpleado(int idEmpleado, String nombre, String email, String telefono, String puesto, String fechaContratacion) {
+        try {
+            LocalDate fecha = LocalDate.parse(fechaContratacion);
+            Empleado empleado = new Empleado(idEmpleado, nombre, email, telefono, puesto, fecha);
+            empleadoDAO.actualizarEmpleado(empleado);
+            return "Empleado actualizado exitosamente";
+        } catch (Exception e) {
+            return "Error al actualizar empleado: " + e.getMessage();
+        }
+    }
+
+    @WebMethod
     public String eliminarEmpleado(int idEmpleado) {
         try {
             empleadoDAO.eliminarEmpleado(idEmpleado);
@@ -119,18 +105,40 @@ public class TiendaWebService {
     }
 
     @WebMethod
-    public List<Cliente> obtenerCliente() {
+    public List<Empleado> obtenerTodosEmpleados() {
         try {
-            return clienteDAO.obtenerClientes();
+            return empleadoDAO.obtenerTodosEmpleados();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    // Métodos para Ventas
+    @WebMethod
+    public String realizarVenta(int idCliente, int idEmpleado, String fechaVenta, double total) {
+        try {
+            LocalDate fecha = LocalDate.parse(fechaVenta);
+            Ventas venta = new Ventas(idCliente, idEmpleado, fecha, total);
+            ventasDAO.agregarVenta(venta);
+            return "Venta realizada exitosamente";
+        } catch (Exception e) {
+            return "Error al realizar venta: " + e.getMessage();
+        }
+    }
+
+    @WebMethod
+    public List<Ventas> obtenerTodasLasVentas() {
+        try {
+            return ventasDAO.obtenerVentas();
         } catch (Exception e) {
             return null;
         }
     }
 
     @WebMethod
-    public List<Empleado> obtenerTodosEmpleados() {
+    public List<DetalleVenta> obtenerDetallesVenta(int idVenta) {
         try {
-            return empleadoDAO.obtenerTodosEmpleados();
+            return detalleVentaDAO.obtenerDetallesPorVenta(idVenta);
         } catch (Exception e) {
             return null;
         }

@@ -8,11 +8,11 @@ import java.util.List;
 
 public class ClienteDAO {
 
-    // Método para agregar un cliente
+    // Método para agregar un cliente usando el procedimiento almacenado `agregar_cliente`
     public void agregarCliente(Cliente cliente) {
-        String sql = "INSERT INTO Clientes (nombre_cliente, email_cliente, telefono_cliente, direccion_cliente, fecha_registro) VALUES (?, ?, ?, ?, ?)";
+        String sql = "{CALL agregar_cliente(?, ?, ?, ?, ?)}";
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             CallableStatement stmt = conn.prepareCall(sql)) {
             stmt.setString(1, cliente.getNombre_cliente());
             stmt.setString(2, cliente.getEmail_cliente());
             stmt.setString(3, cliente.getTelefono_cliente());
@@ -47,13 +47,13 @@ public class ClienteDAO {
         return null;
     }
 
-    // Método para obtener todos los clientes
-    public List<Cliente> obtenerClientes() {
+    // Método para obtener todos los clientes usando el procedimiento almacenado `obtener_clientes`
+    public List<Cliente> listarClientes() {
         List<Cliente> clientes = new ArrayList<>();
-        String sql = "SELECT * FROM Clientes";
+        String sql = "{CALL obtener_clientes()}";
         try (Connection conn = DBConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+             CallableStatement stmt = conn.prepareCall(sql);
+             ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 clientes.add(new Cliente(
                         rs.getInt("id_cliente"),
@@ -70,17 +70,16 @@ public class ClienteDAO {
         return clientes;
     }
 
-    // Método para actualizar un cliente
+    // Método para actualizar un cliente usando el procedimiento almacenado `actualizar_cliente`
     public boolean actualizarCliente(Cliente cliente) {
-        String sql = "UPDATE Clientes SET nombre_cliente = ?, email_cliente = ?, telefono_cliente = ?, direccion_cliente = ?, fecha_registro = ? WHERE id_cliente = ?";
+        String sql = "{CALL actualizar_cliente(?, ?, ?, ?, ?)}";
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, cliente.getNombre_cliente());
-            stmt.setString(2, cliente.getEmail_cliente());
-            stmt.setString(3, cliente.getTelefono_cliente());
-            stmt.setString(4, cliente.getDireccion_cliente());
-            stmt.setDate(5, new java.sql.Date(cliente.getFecha_registro().getTime()));
-            stmt.setInt(6, cliente.getId_cliente());
+             CallableStatement stmt = conn.prepareCall(sql)) {
+            stmt.setInt(1, cliente.getId_cliente());
+            stmt.setString(2, cliente.getNombre_cliente());
+            stmt.setString(3, cliente.getEmail_cliente());
+            stmt.setString(4, cliente.getTelefono_cliente());
+            stmt.setString(5, cliente.getDireccion_cliente());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -88,11 +87,11 @@ public class ClienteDAO {
         }
     }
 
-    // Método para eliminar un cliente
+    // Método para eliminar un cliente usando el procedimiento almacenado `eliminar_cliente`
     public boolean eliminarCliente(int idCliente) {
-        String sql = "DELETE FROM Clientes WHERE id_cliente = ?";
+        String sql = "{CALL eliminar_cliente(?)}";
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             CallableStatement stmt = conn.prepareCall(sql)) {
             stmt.setInt(1, idCliente);
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {

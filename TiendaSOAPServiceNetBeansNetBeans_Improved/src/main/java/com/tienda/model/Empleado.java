@@ -1,78 +1,80 @@
 package com.tienda.model;
 
-public class Empleado {
-    private int id_empleado;
-    private String nombre_empleado;
-    private String email_empleado;
-    private String telefono_empleado;
-    private String puesto;
-    private String fecha_contratacion;
+import java.time.LocalDate;
 
-    // Constructor
-    public Empleado(int id_empleado, String nombre_empleado, String email_empleado, String telefono_empleado, String puesto, String fecha_contratacion) {
-        this.id_empleado = id_empleado;
-        this.nombre_empleado = nombre_empleado;
-        this.email_empleado = email_empleado;
-        this.telefono_empleado = telefono_empleado;
+public class Empleado {
+    private int idEmpleado;                // ID del empleado
+    private String nombreEmpleado;         // Nombre del empleado
+    private String emailEmpleado;          // Correo electrónico del empleado
+    private String telefonoEmpleado;       // Teléfono del empleado
+    private String puesto;                 // Puesto del empleado
+    private LocalDate fechaContratacion;  // Fecha de contratación del empleado
+
+    // Constructor con ID (para casos de actualización)
+    public Empleado(int idEmpleado, String nombreEmpleado, String emailEmpleado, String telefonoEmpleado, String puesto, LocalDate fechaContratacion) {
+        this.idEmpleado = idEmpleado;
+        this.nombreEmpleado = nombreEmpleado;
+        this.emailEmpleado = emailEmpleado;
+        this.telefonoEmpleado = telefonoEmpleado;
         this.puesto = puesto;
-        this.fecha_contratacion = fecha_contratacion;
+        this.fechaContratacion = fechaContratacion;
     }
     
     // Constructor sin ID (para agregar nuevos empleados)
-    public Empleado(String nombre_empleado, String email_empleado, String telefono_empleado, String puesto, String fecha_contratacion) {
-        this.nombre_empleado = nombre_empleado;
-        this.email_empleado = email_empleado;
-        this.telefono_empleado = telefono_empleado;
+    public Empleado(String nombreEmpleado, String emailEmpleado, String telefonoEmpleado, String puesto, LocalDate fechaContratacion) {
+        this.nombreEmpleado = nombreEmpleado;
+        this.emailEmpleado = emailEmpleado;
+        this.telefonoEmpleado = telefonoEmpleado;
         this.puesto = puesto;
-        this.fecha_contratacion = fecha_contratacion;
+        this.fechaContratacion = fechaContratacion;
     }
     
     // Getters y Setters
-    public int getId_empleado() {
-        return id_empleado;
+    public int getIdEmpleado() {
+        return idEmpleado;
     }
 
-    public void setId_empleado(int id_empleado) {
-        this.id_empleado = id_empleado;
+    public void setIdEmpleado(int idEmpleado) {
+        this.idEmpleado = idEmpleado;
     }
 
-    public String getNombre_empleado() {
-        return nombre_empleado;
+    public String getNombreEmpleado() {
+        return nombreEmpleado;
     }
 
-    public void setNombre_empleado(String nombre_empleado) {
-        this.nombre_empleado = nombre_empleado;
+    public void setNombreEmpleado(String nombreEmpleado) {
+        this.nombreEmpleado = nombreEmpleado;
     }
 
-    public String getEmail_empleado() {
-        return email_empleado;
+    public String getEmailEmpleado() {
+        return emailEmpleado;
     }
 
-    public void setEmail_empleado(String email_empleado) {
-        this.email_empleado = email_empleado;
+    public void setEmailEmpleado(String emailEmpleado) {
+        this.emailEmpleado = emailEmpleado;
     }
 
-    public String getTelefono_empleado() {
-        return telefono_empleado;
+    public String getTelefonoEmpleado() {
+        return telefonoEmpleado;
     }
 
-    public void setTelefono_empleado(String telefono_empleado) {
-        this.telefono_empleado = telefono_empleado;
+    public void setTelefonoEmpleado(String telefonoEmpleado) {
+        this.telefonoEmpleado = telefonoEmpleado;
     }
 
-    public String getPuesto() {  // Agregado: getter para puesto
+    public String getPuesto() {
         return puesto;
     }
 
-    public void setPuesto(String puesto) {  // Agregado: setter para puesto
+    public void setPuesto(String puesto) {
         this.puesto = puesto;
     }
 
-    public String getFecha_contratacion() {
-        return fecha_contratacion;
+    public LocalDate getFechaContratacion() {
+        return fechaContratacion;
     }
 
-    public void setFecha_contratacion(String fecha_contratacion) {
-        this.fecha_contratacion = fecha_contratacion;
+    public void setFechaContratacion(LocalDate fechaContratacion) {
+        this.fechaContratacion = fechaContratacion;
     }
 }

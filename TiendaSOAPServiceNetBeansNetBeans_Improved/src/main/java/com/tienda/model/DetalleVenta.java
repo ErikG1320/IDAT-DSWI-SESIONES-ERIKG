@@ -1,12 +1,13 @@
 package com.tienda.model;
 
 public class DetalleVenta {
-    private int id_detalle;
-    private int id_venta;
-    private int id_producto;
-    private int cantidad;
-    private double precio_unitario;
+    private int id_detalle;               // ID del detalle de la venta
+    private int id_venta;                 // ID de la venta asociada
+    private int id_producto;              // ID del producto vendido
+    private int cantidad;                  // Cantidad del producto vendido
+    private double precio_unitario;       // Precio unitario del producto
 
+    // Constructor
     public DetalleVenta(int id_detalle, int id_venta, int id_producto, int cantidad, double precio_unitario) {
         this.id_detalle = id_detalle;
         this.id_venta = id_venta;
